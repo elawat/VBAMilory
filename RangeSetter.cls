@@ -8,11 +8,11 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Public rngInstance As Range
-
-Function Load(ws As Worksheet, address As String)
+ 
+Public Sub Load(ws As Worksheet, address As String)
 
 On Error Resume Next
 Set rngInstance = ws.Range(address)
 On Error GoTo 0
 
-End Function
+End Sub

@@ -8,14 +8,14 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 
-Public Function GetPath(folderPath As String, obj As CarryingObject, Optional ext As String = "xlsx")
+Public Function GetPath(folderPath As String, obj As CarryingObject, Optional ext As String = "xlsx") As String
 Dim lp As String
 Dim roadNo As String
 Dim km As String
 Dim town As String
 Dim filename As String
 
-lp = Replace(obj.lp, ".", "")
+lp = Replace(obj.lp, ".", vbNullString)
 roadNo = obj.roadNo
 km = obj.km
 town = obj.TownName

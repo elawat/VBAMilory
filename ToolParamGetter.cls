@@ -18,7 +18,7 @@ Call LoadToolParam
 
 End Sub
 
-Private Function LoadToolParam()
+Private Sub LoadToolParam()
 
 toolParams.pdfHeader = GetPdfHeader()
 toolParams.SelObjColIndex = GetRunCalcsColumn()
@@ -32,7 +32,7 @@ toolParams.ResultsFirstDataCol = GetResultsFirstDataCol()
 toolParams.ResultJNIColumn = GetResultJNIColumn()
 
 
-End Function
+End Sub
 
 Private Function GetPdfHeader() As String
 
@@ -65,62 +65,40 @@ getInputFirstDataRow = shParametry.Range("FirstDataRow").value
 
 End Function
 
-Function GetInputDataSheetIndex() As Integer
+Private Function GetInputDataSheetIndex() As Integer
 
 GetInputDataSheetIndex = shParametry.Range("DataSheetIndex").value
 
 End Function
 
-Function GetResultsFirstDataCol() As Integer
+Private Function GetResultsFirstDataCol() As Integer
 
 GetResultsFirstDataCol = shParametry.Range("FirstDatColResults").value
 
 End Function
 
 
-Function GetResultJNIColumn() As Integer
+Private Function GetResultJNIColumn() As Integer
 
 GetResultJNIColumn = shParametry.Range("ResultJNIColumn").value
 
 End Function
-'
-'Function GetRoadNo() As Integer
-'
-'GetRoadNo = shMapowanie.Range("roadNoColumn").Value
-'
-'End Function
-'
-'Function GetKM() As Integer
-'
-'GetKM = shMapowanie.Range("kmColumn").Value
-'
-'End Function
-'
-'Function GetTown() As Integer
-'
-'GetTown = shMapowanie.Range("townColumn").Value
-'
-'End Function
 
 
 '--- Parameters of output file
 
-Function GetResultsSheetIndex() As Integer
+Private Function GetResultsSheetIndex() As Integer
 
 GetResultsSheetIndex = shParametry.Range("ResultsSheetIndex").value
 
 End Function
 
-Function GetLastRowCheckColResults() As Integer
+Private Function GetLastRowCheckColResults() As Integer
 
 GetLastRowCheckColResults = shParametry.Range("LastRowCheckColResults").value
 
 End Function
 
-'Function GetJNIColIndexInResult() As Integer
-'
-'GetJNIColIndexInResult = shParametry.Range("ResultJNIColumn").value
-'End Function
 
 
 

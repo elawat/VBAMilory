@@ -11,7 +11,7 @@ Option Explicit
 
 Public MapCollection As Collection
 
-Public Function Load(mapType As String, Optional mainType As String)
+Public Sub Load(mapType As String, Optional mainType As String)
 
 
 Select Case mapType
@@ -28,7 +28,7 @@ Select Case mapType
 End Select
 
 
-End Function
+End Sub
 
 Private Sub GetObjFromDataFileMapper()
 Dim co As CObjMap

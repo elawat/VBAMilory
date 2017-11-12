@@ -20,7 +20,7 @@ errorMessage = Validate
 End Sub
 
 
-Public Function Load()
+Public Sub Load()
 
 Set param = New UserParam
 
@@ -36,7 +36,7 @@ param.CreateSummary = CreateSummary
 param.OutputFolderPath = GetOutputFolderPath
 param.SelectObjectMode = GetSelectObjectMode
 
-End Function
+End Sub
 
 Private Function Validate() As String
 
@@ -54,26 +54,24 @@ If param.SelectObjectMode = 0 Then
 End If
 
 '--- Cannot be empty and file needs to exist
+If doesFileExist(param.miloryPath) = False Then
+    msg = "Œcie¿ka do arkusza Milory nie zosta³a podana lub jest niepoprawna."
+    GoTo ExitAndTidyUp
+End If
 If doesFileExist(param.DataPath) = False Then
-    msg = "Œcie¿ka do pliku 'Dane' nie zosta³a podana."
+    msg = "Œcie¿ka do pliku 'Dane' nie zosta³a podana lub jest niepoprawna."
     GoTo ExitAndTidyUp
 End If
-If doesFolderExist(param.OutputFolderPath) = False Then
-    msg = "Œcie¿ka do folderu wyjœciowego nie zosta³a podana."
-    GoTo ExitAndTidyUp
-End If
-If doesFolderExist(param.miloryPath) = False Then
-    msg = "Œcie¿ka do arkusza Milory nie zosta³a podana."
-    GoTo ExitAndTidyUp
-End If
-
 If param.toolMode = 1 Then
     If doesFileExist(param.ResultPath) = False Then
-        msg = "Œcie¿ka do pliku 'Wyniki' nie zosta³a podana."
+        msg = "Œcie¿ka do pliku 'Wyniki' nie zosta³a podana lub jest niepoprawna."
         GoTo ExitAndTidyUp
     End If
 End If
-
+If doesFolderExist(param.OutputFolderPath) = False And param.toolMode = 1 Then
+    msg = "Œcie¿ka do folderu wyjœciowego nie zosta³a podana lub jest niepoprawna."
+    GoTo ExitAndTidyUp
+End If
 
 If param.SendToResults = 0 And param.SaveMiloryForEachObj = 0 And param.SaveAsPdf = 0 _
     And param.CreateSummary = 0 Then
@@ -130,7 +128,7 @@ End Function
 Private Function GetOutputFolderPath() As String
 
 GetOutputFolderPath = shUstawienia.Range("OutputPath").value
-If GetOutputFolderPath <> "" And Right(GetOutputFolderPath, 1) <> "\" Then GetOutputFolderPath = GetOutputFolderPath & "\"
+If GetOutputFolderPath <> vbNullString And Right(GetOutputFolderPath, 1) <> "\" Then GetOutputFolderPath = GetOutputFolderPath & "\"
 
 
 End Function

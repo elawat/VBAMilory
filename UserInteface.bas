@@ -5,7 +5,7 @@ Private Function GetPassword() As String
 GetPassword = shParametry.Range("password")
 End Function
 
-Sub ChangeMode()
+Public Sub ChangeMode()
 
 Dim ws As Worksheet
 Dim dd As DropDown
@@ -30,7 +30,7 @@ End If
 
 End Sub
 
-Sub SetInitialLayout()
+Public Sub SetInitialLayout()
 Dim ws As Worksheet
 Dim password As String
 
@@ -56,7 +56,7 @@ shUstawienia.Range("OutputPath").Locked = False
 
 End Sub
 
-Sub SetDevLayout()
+Public Sub SetDevLayout()
 Dim ws As Worksheet
 Dim password As String
 

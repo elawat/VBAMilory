@@ -17,7 +17,7 @@ Call GetMiloryDetailsFromSheet
 End Sub
 
 
-Private Function GetMiloryDetailsFromSheet()
+Private Sub GetMiloryDetailsFromSheet()
 Dim details() As Variant
 Dim obj As MilorySheetsDetails
 Dim i As Integer
@@ -38,4 +38,4 @@ For i = LBound(details, 1) To UBound(details, 1)
 Next i
 
 
-End Function
+End Sub

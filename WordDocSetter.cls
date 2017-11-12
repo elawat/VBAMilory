@@ -73,7 +73,8 @@ End Sub
 
 
 Private Sub ClearClipBoard()
-Dim oData As New DataObject 'object to use the clipboard
+Dim oData As DataObject  'object to use the clipboard
+Set oData = New DataObject
 oData.SetText Text:=Empty 'Clear
 oData.PutInClipboard 'take in the clipboard to empty it
 End Sub

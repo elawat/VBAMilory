@@ -69,9 +69,15 @@ Dim typ As String
 typ = vbNullString
 
 If obj.ConstructionType = "B" Then
-    If obj.BeamNo <> "" And IsNumeric(obj.BeamNo) Then
+    If obj.BeamNo <> vbNullString And IsNumeric(obj.BeamNo) Then
         If CInt(obj.BeamNo) = 2 Then
             typ = "d"
+        Else
+            If obj.kerb = 1 Then
+                typ = "bk"
+            Else
+                typ = "b"
+            End If
         End If
     Else
         If obj.kerb = 1 Then
@@ -89,6 +95,7 @@ ElseIf obj.ConstructionType = "P" Then
 End If
 
 obj.mainType = typ
+typ = vbNullString
 
 
 End Sub

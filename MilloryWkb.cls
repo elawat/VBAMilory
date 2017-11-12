@@ -80,6 +80,8 @@ Set map = Nothing
 '--- Fill results in obj
 Call FillObjResultsFromMillory(obj)
 
+obj.calcsDone = True
+
 End Sub
 
 Private Sub FillObjResultsFromMillory(obj As CarryingObject)
@@ -98,7 +100,9 @@ For Each objMap In map.MapCollection
         Call rng.Load(maintypeWS.ws, CStr(objMap.MiloryAddress(1)))
         If Not rng.rngInstance Is Nothing Then
             If Not IsError(rng.rngInstance.value) Then
-                value = rng.rngInstance.value
+                If rng.rngInstance.value <> vbNullString Then
+                    value = rng.rngInstance.value
+                End If
             End If
         End If
         Set rng = Nothing
@@ -117,7 +121,7 @@ Dim path As String
 Set output = New OutputFile
 path = output.GetPath(outputFolder, obj)
 
-wb.SaveAs (path)
+wb.SaveAs filename:=path, FileFormat:=51
 
 End Sub
 

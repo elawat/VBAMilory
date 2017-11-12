@@ -12,7 +12,6 @@ Option Explicit
 Private objDoc As Document
 Private params As ToolParamGetter
 Private wordApp As Object
-Private summaryStarted As Boolean
 Private header As String
 
 Public Sub Initialize(wordSetter As WordDocSetter)
@@ -36,7 +35,7 @@ If Not wordApp Is Nothing Then Set wordApp = Nothing
 End Sub
 
 
-Public Function PasteRangesAsPict(ranges As Collection, Optional wordSummary As Document)
+Public Sub PasteRangesAsPict(ranges As Collection, Optional wordSummary As Document)
 
 Dim rng As Range
 Dim lastParag As Long
@@ -62,7 +61,7 @@ If Not wordSummary Is Nothing Then
     Call AddToSummary(wordSummary)
 End If
 
-End Function
+End Sub
 
 Private Sub PasteRangeAsPict(rng)
 

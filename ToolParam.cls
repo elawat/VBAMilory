@@ -21,6 +21,5 @@ Public ResultsFirstDataCol As Integer
 Public ResultJNIColumn As Integer
 
 
-Public e As String
 
 

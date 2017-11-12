@@ -8,8 +8,8 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Public MainTypeSheetIndex As Integer
-Public MainTypePrintRange As String
 Public MainTypeIndexInMap As Integer
+Public MainTypePrintRange As String
 Public ws As Worksheet
 
 

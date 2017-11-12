@@ -46,8 +46,9 @@ If lastrow > rng.row Then
     shUstawienia.Range(shUstawienia.Cells(rng.row + 1, rng.Column), shUstawienia.Cells(lastrow, rng.Column)).ClearContents
 End If
 
+i = 1
 If Not colInvalidObjects Is Nothing Then
-    i = 1
+
     For Each obj In colInvalidObjects
         rng.Offset(i, 0).value = obj.JNI & ", " & obj.TownName
         i = i + 1
@@ -75,9 +76,9 @@ If lastrow > rng.row Then
     shUstawienia.Range(shUstawienia.Cells(rng.row + 1, rng.Column), shUstawienia.Cells(lastrow, rng.Column)).ClearContents
 End If
 
+i = 1
 If Not colNotFoundInResultsObj Is Nothing Then
     
-    i = 1
     For Each obj In colNotFoundInResultsObj
         rng.Offset(i, 0).value = obj.JNI & ", " & obj.TownName
         i = i + 1

@@ -56,7 +56,7 @@ Private Sub Fill(objs As Collection, toolMode As Integer, _
         issues As ObjectsWithIssues, Optional CompareWithExisting As Boolean = True)
 Dim map As Mapper
 Dim objMap As CObjMap
-Dim rng As RangeSetter
+'Dim rng As RangeSetter
 Dim value As Variant
 Dim row As Integer
 Dim oldvalue As Variant
@@ -67,36 +67,39 @@ Call map.Load("ObjToResultsMap")
 
 For Each obj In objs
 
-    row = 0
-    If toolMode = 2 Then
-        row = wsResult.Cells(wsResult.Rows.Count, param.toolParams.ResultsFirstDataCol).End(xlUp).row + 3
-        CompareWithExisting = False
-    Else
-        If Not IsError(Application.Match(Trim(obj.JNI), wsResult.Columns(param.toolParams.ResultJNIColumn), 0)) Then
-            row = Application.Match(Trim(obj.JNI), wsResult.Columns(param.toolParams.ResultJNIColumn), 0)
-        End If
-        If row = 0 Then
-            issues.AddNotFound obj
-            GoTo NextObj
-        End If
-    End If
-
-
-    For Each objMap In map.MapCollection
-        value = obj.GetPropValueFromPropName(obj, objMap.propertyName)
-        oldvalue = wsResult.Cells(row, objMap.columnIndex).Value2
-        If oldvalue = "" Then
-            wsResult.Cells(row, objMap.columnIndex).value = value
+    If obj.calcsDone Then
+        row = 0
+        If toolMode = 2 Then
+            row = wsResult.Cells(wsResult.Rows.Count, param.toolParams.ResultsFirstDataCol).End(xlUp).row + 1
+            If row < 5 Then row = 5
+            CompareWithExisting = False
         Else
-            If CompareWithExisting And Trim(oldvalue) <> Trim(value) Then
-                wsResult.Cells(row, objMap.columnIndex).AddComment CStr(value)
-            Else
-                wsResult.Cells(row, objMap.columnIndex).value = value
+            If Not IsError(Application.Match(Trim(obj.JNI), wsResult.Columns(param.toolParams.ResultJNIColumn), 0)) Then
+                row = Application.Match(Trim(obj.JNI), wsResult.Columns(param.toolParams.ResultJNIColumn), 0)
+            End If
+            If row = 0 Then
+                issues.AddNotFound obj
+                GoTo NextObj
             End If
         End If
-        value = ""
-        oldvalue = ""
-    Next objMap
+    
+    
+        For Each objMap In map.MapCollection
+                value = obj.GetPropValueFromPropName(obj, objMap.propertyName)
+                oldvalue = wsResult.Cells(row, objMap.columnIndex).Value2
+                If oldvalue = vbNullString Then
+                    wsResult.Cells(row, objMap.columnIndex).value = value
+                Else
+                    If CompareWithExisting And Trim(oldvalue) <> Trim(value) Then
+                        wsResult.Cells(row, objMap.columnIndex).AddComment CStr(value)
+                    Else
+                        wsResult.Cells(row, objMap.columnIndex).value = value
+                    End If
+                End If
+                value = vbNullString
+                oldvalue = vbNullString
+        Next objMap
+    End If
 
 
 NextObj:

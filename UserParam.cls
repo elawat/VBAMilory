@@ -9,7 +9,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Public toolMode As Integer '1 generete new results; 2 fill results file
+Public toolMode As Integer '2 generete new results; 1 fill results file
 
 Public miloryPath As String
 Public DataPath As String

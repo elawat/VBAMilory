@@ -11,6 +11,7 @@ Attribute VB_Exposed = False
 '--- Validation
 Public IsValid As Boolean
 Public mainType As String
+Public calcsDone As Boolean
 
 
 '--- From input file
@@ -65,15 +66,15 @@ Public L7 As Variant
 Public L8 As Variant
 
 
-Public LoadClassWheeled1 As Double
-Public LoadClassWheeled2 As Double
-Public LoadClassTracklaying1 As Double
-Public LoadClassTracklaying2 As Double
+Public LoadClassWheeled1 As Variant
+Public LoadClassWheeled2 As Variant
+Public LoadClassTracklaying1 As Variant
+Public LoadClassTracklaying2 As Variant
 
-Public AxisLoad As Double
+Public AxisLoad As Variant
 Public Comments As Variant
 Public SignType As Variant
-Public SignsAmount As Long
+Public SignsAmount As Variant
 
 
 Public Function GetPropValueFromPropName(obj As CarryingObject, propertyName As String) As Variant
@@ -174,7 +175,7 @@ GetPropValueFromPropName = value
 
 End Function
 
-Public Function LoadProperty(obj As CarryingObject, propertyName As String, value As Variant)
+Public Sub LoadProperty(obj As CarryingObject, propertyName As String, value As Variant)
 
 Select Case propertyName
     Case "lp"
@@ -268,7 +269,7 @@ End Select
 
 
 
-End Function
+End Sub
 
 
 

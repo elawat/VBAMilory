@@ -9,7 +9,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Public Function IsRunning(process As String)
+Public Function IsRunning(process As String) As Boolean
     Dim objList As Object
 
     Set objList = GetObject("winmgmts:") _

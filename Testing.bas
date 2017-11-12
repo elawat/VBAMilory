@@ -2,7 +2,7 @@ Attribute VB_Name = "Testing"
 Option Explicit
 
 
-Sub TestCarryingObjectGetter()
+Public Sub TestCarryingObjectGetter()
 
 Dim outputPathFolder As String
 Dim ws As Worksheet
@@ -48,7 +48,7 @@ Set colCObjects = Nothing
 End Sub
 
 
-Sub TestMilloryWkb()
+Public Sub TestMilloryWkb()
 
 Dim outputPathFolder As String
 Dim ws As Worksheet
@@ -88,3 +88,16 @@ Set colCObjects = Nothing
 Set wbMilory = Nothing
 
 End Sub
+
+Public Sub test()
+Dim i As Long
+Dim x() As Byte
+x = StrConv(ChrW(281), vbFromUnicode)
+Debug.Print x
+' Convert string.
+For i = 0 To UBound(x)
+    Debug.Print x(i)
+Next
+End Sub
+
+

@@ -16,11 +16,11 @@ Set rngComment = shUstawienia.Range("Komentarz")
 
 If errorMsg = vbNullString Then
     rngComment.value = Format(Now, "dd/mm/yyyy hh:mm:ss")
-    MsgBox "Pliki wyjœciowe zosta³y zapisane.", , "Ukoñczono obliczenia"
+    MsgBox "Resultaty zosta³y zapisane.", , "Ukoñczono obliczenia"
 Else
     rngComment.value = Format(Now, "dd/mm/yyyy hh:mm:ss") & " " & errorMsg
     MsgBox errorMsg, , "SprawdŸ ustawienia"
 End If
 
 End Sub
- 
+

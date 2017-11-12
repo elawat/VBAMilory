@@ -16,7 +16,7 @@ Dim timeStamp As Date
 Dim outputPathFolder As String
 Dim wbData  As Workbook
 Dim wbMilory As MilloryWkb
-Dim doesFillExisting As Boolean
+'Dim doesFillExisting As Boolean
 Dim wbResults As ResultsWkb
 Dim resultSavePath As String
 Dim wordSetter As WordDocSetter
@@ -62,6 +62,8 @@ End If
 For Each singleCObj In colCObjects.colObjects
     If singleCObj.DoCalc = 1 Or userInput.param.SelectObjectMode = 1 Then
     
+        Application.StatusBar = "JNI " & singleCObj.JNI & " " & singleCObj.TownName
+        
         If singleCObj.IsValid Then
             '--- Run Calcs and exports
             Set wbMilory = New MilloryWkb
@@ -87,6 +89,8 @@ For Each singleCObj In colCObjects.colObjects
     
     End If
 Next singleCObj
+
+Application.StatusBar = "Saving outputs..."
 
 '--- Save summery when needed
 If Not wordSummary Is Nothing Then
@@ -116,7 +120,7 @@ Set invalidObjs = Nothing
 Set colCObjects = Nothing
 Set wordSetter = Nothing
 
-
+Application.StatusBar = False
 Application.ScreenUpdating = True
 Application.DisplayAlerts = True
 

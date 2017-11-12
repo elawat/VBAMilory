@@ -11,7 +11,7 @@ Call SetDevLayout
 Set process = New MiloryCalcs
 process.Run
 
-Call SetInitialLayout
+'Call SetInitialLayout
 
 Set process = Nothing
 
