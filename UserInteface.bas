@@ -36,7 +36,7 @@ Dim password As String
 
 password = GetPassword
 
-Application.DisplayFormulaBar = False
+'Application.DisplayFormulaBar = False
 
 For Each ws In ThisWorkbook.Worksheets
 
@@ -73,3 +73,37 @@ Next ws
 
 End Sub
 
+Public Sub Unblock()
+Application.ScreenUpdating = False
+Dim checkPassword As Integer
+
+checkPassword = ProvidedCorrectPassword
+If checkPassword = 1 Then
+    Call SetDevLayout
+ElseIf checkPassword = 0 Then
+    MsgBox "Niepoprawne has³o", vbOKOnly
+
+End If
+    
+Application.ScreenUpdating = True
+End Sub
+
+Public Function ProvidedCorrectPassword() As Integer
+Dim password As String
+Dim userPassword As String
+password = shParametry.Range("password")
+
+
+userPassword = InputBox("WprowadŸ has³o, aby odblokowaæ narzêdzie", "Has³o")
+
+If password = userPassword Then
+    ProvidedCorrectPassword = 1
+ElseIf userPassword = vbNullString Then
+    ProvidedCorrectPassword = 2
+Else
+    ProvidedCorrectPassword = 0
+End If
+
+
+
+End Function

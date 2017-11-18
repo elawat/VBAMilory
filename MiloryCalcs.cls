@@ -8,55 +8,107 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
+Private userInput As UserParamGetter
+Private outputPathFolder As String
+Private timeStamp As Date
+Private invalidObjs As ObjectsWithIssues
+Private colCObjects As CarryingObjectGetter
+Private wordSetter As WordDocSetter
+Private wordSummary As Document
+
+
+Private Sub Class_Terminate()
+
+If Not userInput Is Nothing Then Set userInput = Nothing
+If Not invalidObjs Is Nothing Then Set invalidObjs = Nothing
+If Not colCObjects Is Nothing Then Set colCObjects = Nothing
+If Not wordSetter Is Nothing Then Set wordSetter = Nothing
+If Not wordSummary Is Nothing Then Set wordSummary = Nothing
+
+End Sub
 
 
 Public Sub Run()
-Dim userInput As UserParamGetter
-Dim timeStamp As Date
-Dim outputPathFolder As String
-Dim wbData  As Workbook
-Dim wbMilory As MilloryWkb
-'Dim doesFillExisting As Boolean
-Dim wbResults As ResultsWkb
-Dim resultSavePath As String
-Dim wordSetter As WordDocSetter
-Dim wordSummary As Document
-Dim singleCObj As CarryingObject
-Dim colCObjects As CarryingObjectGetter
-Dim invalidObjs As ObjectsWithIssues
-Dim resInfo As ResultsInfo
 
 Application.ScreenUpdating = False
 Application.DisplayAlerts = False
 
+Call GetUserParameters
+'--- Validate user inputs
+If userInput.errorMessage = vbNullString Then
+
+    Call SetUpOutputPath
+    Call GetInputData
+    Call SetUpWord
+    Call CreateSummaryPdf
+    Call WriteOutput
+    Call SaveSummaryPdf
+    Call PrintInvalid
+
+End If
+
+Call PrintResultsInfo
+
+Application.StatusBar = False
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+
+End Sub
+
+Private Sub GetUserParameters()
+
 '--- Get initial user parameters
 Set userInput = New UserParamGetter
-'--- Validate user inputs
-If userInput.errorMessage <> vbNullString Then GoTo ExitAndTidyUp
 
-'--- Set up outputPath
+End Sub
+
+Private Sub SetUpOutputPath()
+
 timeStamp = Now
 outputPathFolder = userInput.param.OutputFolderPath & "Wyniki_" & Format(timeStamp, "ddmmyyyy_hhmmss") & "\"
 MkDir outputPathFolder
 
+End Sub
+
+Private Sub GetInputData()
+Dim wbData  As Workbook
+
 '--- Open and save copy of Data workbook
 Set wbData = Workbooks.Open(userInput.param.DataPath)
 wbData.SaveAs outputPathFolder & "Dane_" & Format(timeStamp, "ddmmyyyy_hhmmss")
+
 '--- Get input data
 Set invalidObjs = New ObjectsWithIssues
 Set colCObjects = New CarryingObjectGetter
 Call colCObjects.Load(wbData)
+
+
 wbData.Close (False)
 Set wbData = Nothing
+
+End Sub
+
+Private Sub SetUpWord()
 
 '--- Set up word that it is used in pdf exporter
 Set wordSetter = New WordDocSetter
 Call wordSetter.Load
 
+End Sub
+
+Private Sub CreateSummaryPdf()
+
 '--- Create summary pdf
 If userInput.param.CreateSummary Then
     Set wordSummary = wordSetter.GetNew
 End If
+
+End Sub
+
+Private Sub WriteOutput()
+
+Dim singleCObj As CarryingObject
+Dim wbMilory As MilloryWkb
 
 '--- Loop through all object and execute required tasks
 For Each singleCObj In colCObjects.colObjects
@@ -90,6 +142,10 @@ For Each singleCObj In colCObjects.colObjects
     End If
 Next singleCObj
 
+End Sub
+
+Private Sub SaveSummaryPdf()
+
 Application.StatusBar = "Saving outputs..."
 
 '--- Save summery when needed
@@ -97,8 +153,16 @@ If Not wordSummary Is Nothing Then
     wordSummary.ExportAsFixedFormat OutputFileName:=outputPathFolder & "Milory_zestawienie.pdf", _
      ExportFormat:=wdExportFormatPDF
     wordSummary.Close (False)
-    Set wordSummary = Nothing
+    
 End If
+
+
+End Sub
+
+Private Sub SendToResults()
+
+Dim wbResults As ResultsWkb
+Dim resultSavePath As String
 
 '--- Send to results
 If userInput.param.SendToResults Then
@@ -108,20 +172,19 @@ If userInput.param.SendToResults Then
     Set wbResults = Nothing
 End If
 
+End Sub
+
+Private Sub PrintInvalid()
+
 Call invalidObjs.PrintcolInvalidObjects
 Call invalidObjs.PrintcolNotFoundInResultsObj
 
-ExitAndTidyUp:
+End Sub
+
+Private Sub PrintResultsInfo()
+Dim resInfo As ResultsInfo
+
 Set resInfo = New ResultsInfo
 resInfo.Printer (userInput.errorMessage)
-
-Set userInput = Nothing
-Set invalidObjs = Nothing
-Set colCObjects = Nothing
-Set wordSetter = Nothing
-
-Application.StatusBar = False
-Application.ScreenUpdating = True
-Application.DisplayAlerts = True
 
 End Sub

@@ -44,7 +44,7 @@ lastParag = objDoc.Paragraphs.Count
 header = params.toolParams.pdfHeader
 
 objDoc.Paragraphs(lastParag).Range.Text = header
-objDoc.Paragraphs(lastParag).Range.Style = objDoc.Styles("Heading 3")
+'objDoc.Paragraphs(lastParag).Range.Style = objDoc.Styles("Heading 3")
 objDoc.Paragraphs(lastParag).Range.Font.ColorIndex = wdBlack
 objDoc.Paragraphs(lastParag).Alignment = wdAlignParagraphCenter
 
@@ -57,11 +57,25 @@ For Each rng In ranges
     Call PasteRangeAsPict(rng)
 Next rng
 
+Call DeleteBlankPages(objDoc)
+
+
 If Not wordSummary Is Nothing Then
     Call AddToSummary(wordSummary)
 End If
 
 End Sub
+
+Private Function DeleteBlankPages(wd As Word.Document)
+
+Dim par As Paragraph
+For Each par In wd.Paragraphs
+    If Len(par.Range.Text) <= 1 Then
+        par.Range.Delete
+    End If
+Next par
+
+End Function
 
 Private Sub PasteRangeAsPict(rng)
 

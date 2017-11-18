@@ -87,14 +87,9 @@ For Each obj In objs
         For Each objMap In map.MapCollection
                 value = obj.GetPropValueFromPropName(obj, objMap.propertyName)
                 oldvalue = wsResult.Cells(row, objMap.columnIndex).Value2
-                If oldvalue = vbNullString Then
-                    wsResult.Cells(row, objMap.columnIndex).value = value
-                Else
-                    If CompareWithExisting And Trim(oldvalue) <> Trim(value) Then
-                        wsResult.Cells(row, objMap.columnIndex).AddComment CStr(value)
-                    Else
-                        wsResult.Cells(row, objMap.columnIndex).value = value
-                    End If
+                wsResult.Cells(row, objMap.columnIndex).value = value
+                If CompareWithExisting And Trim(oldvalue) <> Trim(value) Then
+                    wsResult.Cells(row, objMap.columnIndex).AddComment CStr(oldvalue)
                 End If
                 value = vbNullString
                 oldvalue = vbNullString
