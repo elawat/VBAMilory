@@ -43,6 +43,7 @@ If userInput.errorMessage = vbNullString Then
     Call CreateSummaryPdf
     Call WriteOutput
     Call SaveSummaryPdf
+    Call SendToResults
     Call PrintInvalid
 
 End If

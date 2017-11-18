@@ -44,42 +44,36 @@ Dim msg As String
 
 '--- Must be selected
 If param.toolMode = 0 Then
-    msg = "Wybierz tryb narzêdzia."
-    GoTo ExitAndTidyUp
+    msg = "Wybierz tryb narzêdzia." & vbNewLine
 End If
+
 '--- Must be selected
 If param.SelectObjectMode = 0 Then
-    msg = "Wybierz sposób przeprowadzenia obliczeñ."
-    GoTo ExitAndTidyUp
+    msg = msg & "Wybierz sposób przeprowadzenia obliczeñ." & vbNewLine
 End If
 
 '--- Cannot be empty and file needs to exist
 If doesFileExist(param.miloryPath) = False Then
-    msg = "Œcie¿ka do arkusza Milory nie zosta³a podana lub jest niepoprawna."
-    GoTo ExitAndTidyUp
+    msg = msg & "Œcie¿ka do arkusza Milory nie zosta³a podana lub jest niepoprawna." & vbNewLine
 End If
+
 If doesFileExist(param.DataPath) = False Then
-    msg = "Œcie¿ka do pliku 'Dane' nie zosta³a podana lub jest niepoprawna."
-    GoTo ExitAndTidyUp
+    msg = msg & "Œcie¿ka do pliku 'Dane' nie zosta³a podana lub jest niepoprawna." & vbNewLine
 End If
-If param.toolMode = 1 Then
-    If doesFileExist(param.ResultPath) = False Then
-        msg = "Œcie¿ka do pliku 'Wyniki' nie zosta³a podana lub jest niepoprawna."
-        GoTo ExitAndTidyUp
-    End If
+
+If param.toolMode = 1 And doesFileExist(param.ResultPath) = False Then
+    msg = msg & "Œcie¿ka do pliku 'Wyniki' nie zosta³a podana lub jest niepoprawna." & vbNewLine
 End If
-If doesFolderExist(param.OutputFolderPath) = False And param.toolMode = 1 Then
-    msg = "Œcie¿ka do folderu wyjœciowego nie zosta³a podana lub jest niepoprawna."
-    GoTo ExitAndTidyUp
+
+If doesFolderExist(param.OutputFolderPath) = False Then
+    msg = msg & "Œcie¿ka do folderu wyjœciowego nie zosta³a podana lub jest niepoprawna." & vbNewLine
 End If
 
 If param.SendToResults = 0 And param.SaveMiloryForEachObj = 0 And param.SaveAsPdf = 0 _
     And param.CreateSummary = 0 Then
-    msg = "Wybierz rodzaj plików wyjciowych."
-    GoTo ExitAndTidyUp
+    msg = msg & "Wybierz rodzaj plików wyjciowych."
 End If
 
-ExitAndTidyUp:
 Validate = msg
 
 End Function

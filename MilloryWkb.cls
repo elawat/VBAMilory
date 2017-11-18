@@ -47,7 +47,7 @@ For Each objMap In map.MapCollection
     If Not objMap.MiloryAddress Is Nothing Then
         For Each address In objMap.MiloryAddress
             Set rng = New RangeSetter
-            Call rng.Load(maintypeWS.ws, CStr(address))
+            Call rng.LoadFromAddress(maintypeWS.ws, CStr(address))
             If Not rng.rngInstance Is Nothing Then
                 rng.rngInstance.value = obj.GetPropValueFromPropName(obj, objMap.propertyName)
                 Debug.Print rng.rngInstance.address, rng.rngInstance.value
@@ -67,7 +67,7 @@ For Each objMap In map.MapCollection
     If Not objMap.MiloryAddress Is Nothing Then
         For Each address In objMap.MiloryAddress
             Set rng = New RangeSetter
-            Call rng.Load(staticWS.ws, CStr(address))
+            Call rng.LoadFromAddress(staticWS.ws, CStr(address))
             If Not rng.rngInstance Is Nothing Then
                 rng.rngInstance.value = obj.GetPropValueFromPropName(obj, objMap.propertyName)
             End If
@@ -97,7 +97,7 @@ Call map.Load("MilloryResultsToObjMap", obj.mainType)
 For Each objMap In map.MapCollection
     If Not objMap.MiloryAddress Is Nothing Then
         Set rng = New RangeSetter
-        Call rng.Load(maintypeWS.ws, CStr(objMap.MiloryAddress(1)))
+        Call rng.LoadFromAddress(maintypeWS.ws, CStr(objMap.MiloryAddress(1)))
         If Not rng.rngInstance Is Nothing Then
             If Not IsError(rng.rngInstance.value) Then
                 If rng.rngInstance.value <> vbNullString Then
@@ -148,7 +148,7 @@ End If
 Set rng = New RangeSetter
 
 Set milDetails = miloryDetailsGetter.dict("all")
-Call rng.Load(staticWS.ws, milDetails.printRange)
+Call rng.LoadFromAddress(staticWS.ws, milDetails.printRange)
 If Not rng.rngInstance Is Nothing Then
     If colRanges Is Nothing Then
         Set colRanges = New Collection
@@ -158,7 +158,7 @@ If Not rng.rngInstance Is Nothing Then
 End If
 
 Set milDetails = miloryDetailsGetter.dict(obj.mainType)
-Call rng.Load(maintypeWS.ws, milDetails.printRange)
+Call rng.LoadFromAddress(maintypeWS.ws, milDetails.printRange)
 If Not rng.rngInstance Is Nothing Then
      If colRanges Is Nothing Then
         Set colRanges = New Collection

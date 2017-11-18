@@ -56,7 +56,6 @@ Private Sub Fill(objs As Collection, toolMode As Integer, _
         issues As ObjectsWithIssues, Optional CompareWithExisting As Boolean = True)
 Dim map As Mapper
 Dim objMap As CObjMap
-'Dim rng As RangeSetter
 Dim value As Variant
 Dim row As Integer
 Dim oldvalue As Variant
@@ -64,36 +63,34 @@ Dim obj As CarryingObject
 
 Set map = New Mapper
 Call map.Load("ObjToResultsMap")
+If toolMode = 2 Then CompareWithExisting = False
 
 For Each obj In objs
 
     If obj.calcsDone Then
+        
         row = 0
-        If toolMode = 2 Then
-            row = wsResult.Cells(wsResult.Rows.Count, param.toolParams.ResultsFirstDataCol).End(xlUp).row + 1
-            If row < 5 Then row = 5
-            CompareWithExisting = False
+        row = GetRow(obj, toolMode)
+        
+        If row <> 0 Then
+        
+            For Each objMap In map.MapCollection
+                    value = obj.GetPropValueFromPropName(obj, objMap.propertyName)
+                    oldvalue = wsResult.Cells(row, objMap.columnIndex).Value2
+                    wsResult.Cells(row, objMap.columnIndex).value = value
+                    If CompareWithExisting And Trim(oldvalue) <> Trim(value) Then
+                        wsResult.Cells(row, objMap.columnIndex).AddComment CStr(oldvalue)
+                    End If
+                    value = vbNullString
+                    oldvalue = vbNullString
+            Next objMap
+        
         Else
-            If Not IsError(Application.Match(Trim(obj.JNI), wsResult.Columns(param.toolParams.ResultJNIColumn), 0)) Then
-                row = Application.Match(Trim(obj.JNI), wsResult.Columns(param.toolParams.ResultJNIColumn), 0)
-            End If
-            If row = 0 Then
-                issues.AddNotFound obj
-                GoTo NextObj
-            End If
+        
+            issues.AddNotFound obj
+        
         End If
-    
-    
-        For Each objMap In map.MapCollection
-                value = obj.GetPropValueFromPropName(obj, objMap.propertyName)
-                oldvalue = wsResult.Cells(row, objMap.columnIndex).Value2
-                wsResult.Cells(row, objMap.columnIndex).value = value
-                If CompareWithExisting And Trim(oldvalue) <> Trim(value) Then
-                    wsResult.Cells(row, objMap.columnIndex).AddComment CStr(oldvalue)
-                End If
-                value = vbNullString
-                oldvalue = vbNullString
-        Next objMap
+        
     End If
 
 
@@ -106,3 +103,18 @@ Set map = Nothing
 End Sub
 
 
+Private Function GetRow(obj As CarryingObject, toolMode As Integer) As Integer
+Dim row As Integer
+
+If toolMode = 2 Then
+    row = wsResult.Cells(wsResult.Rows.Count, param.toolParams.ResultsFirstDataCol).End(xlUp).row + 1
+    If row < 5 Then row = 5
+Else
+    If Not IsError(Application.Match(Trim(obj.JNI), wsResult.Columns(param.toolParams.ResultJNIColumn), 0)) Then
+        row = Application.Match(Trim(obj.JNI), wsResult.Columns(param.toolParams.ResultJNIColumn), 0)
+    End If
+End If
+
+GetRow = row
+
+End Function

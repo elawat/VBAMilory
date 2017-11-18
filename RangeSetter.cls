@@ -8,8 +8,26 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Public rngInstance As Range
+Private dictNames As Scripting.Dictionary
  
-Public Sub Load(ws As Worksheet, address As String)
+Private Sub SetUpNamesDictionary()
+Dim nm As Name
+
+If Not dictNames Is Nothing Then Set dictNames = Nothing
+Set dictNames = New Scripting.Dictionary
+dictNames.CompareMode = TextCompare
+
+For Each nm In ThisWorkbook.Names
+    If Not (Strings.Right(nm.RefersTo, 5) = "#REF!") Then
+        dictNames(nm.Name) = nm.RefersTo
+    End If
+Next
+
+End Sub
+
+
+
+Public Sub LoadFromAddress(ws As Worksheet, address As String)
 
 On Error Resume Next
 Set rngInstance = ws.Range(address)
