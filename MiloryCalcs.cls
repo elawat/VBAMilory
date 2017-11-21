@@ -93,7 +93,7 @@ Private Sub SetUpWord()
 
 '--- Set up word that it is used in pdf exporter
 Set wordSetter = New WordDocSetter
-Call wordSetter.Load
+Call wordSetter.Load(True)
 
 End Sub
 

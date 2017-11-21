@@ -50,7 +50,6 @@ For Each objMap In map.MapCollection
             Call rng.LoadFromAddress(maintypeWS.ws, CStr(address))
             If Not rng.rngInstance Is Nothing Then
                 rng.rngInstance.value = obj.GetPropValueFromPropName(obj, objMap.propertyName)
-                Debug.Print rng.rngInstance.address, rng.rngInstance.value
             End If
             Set rng = Nothing
         Next address

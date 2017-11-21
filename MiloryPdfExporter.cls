@@ -105,6 +105,7 @@ objDoc.Parent.Selection.Copy
 summaryWord.Activate
 If InStr(summaryWord.Paragraphs(1).Range.Text, header) > 0 Then '--- To check if already pasted at least once
     summaryWord.Parent.Selection.EndKey
+    wordApp.Selection.InsertBreak Type:=7
 End If
 summaryWord.Parent.Selection.PasteAndFormat wdPasteDefault
 summaryWord.Parent.Selection.TypeBackspace
